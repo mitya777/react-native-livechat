@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { GiftedChat } from 'react-native-gifted-chat';
 import NavigationBar from './NavigationBar/NavigationBar';
 import { ifIphoneX } from 'react-native-iphone-x-helper';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 const { height, width } = Dimensions.get('window');
 const totalSize = num => (Math.sqrt((height * height) + (width * width)) * num) / 100;
@@ -154,9 +155,9 @@ export default class Chat extends React.Component {
               onInputTextChanged={this.handleInputTextChange}
               user={this.getVisitor()}
               {...this.props}
-              forceGetKeyboardHeight
             />
-            <KeyboardAvoidingView behavior={ Platform.OS === 'android' ? 'padding' :  null} keyboardVerticalOffset={80} />
+            {/*<KeyboardAvoidingView behavior={ Platform.OS === 'android' ? 'padding' :  null} keyboardVerticalOffset={80} />*/}
+            <KeyboardSpacer/>
           </SafeAreaView>
         </View>
       );
@@ -185,7 +186,7 @@ const styles = StyleSheet.create({
     height: Platform.OS === 'ios' ? height - this.safeOffset.bottom : height - height / 25,
     position: 'absolute',
     flexDirection: 'column',
-    backgroundColor: '#fff',
+    backgroundColor: '#fff'
   },
   navigation: {
     flex: 1,

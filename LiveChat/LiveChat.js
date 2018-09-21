@@ -44,7 +44,7 @@ export default class LiveChat extends Component {
         width: width / 7, height: width / 7,
       },
       container: {
-        position: 'absolute',
+        position: 'absolute'
       },
     });
   }
