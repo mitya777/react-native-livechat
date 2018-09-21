@@ -43,7 +43,12 @@ export default class LiveChat extends Component {
       icon: {
         width: width / 7, height: width / 7,
       },
-      container: {
+      // Need to differentiate OS for Send button to work.
+      iosContainer: {
+        position: 'absolute',
+        zIndex: 1100
+      },
+      droidContainer: {
         position: 'absolute'
       },
     });
@@ -59,7 +64,7 @@ export default class LiveChat extends Component {
 
   render() {
     return (
-      <View style={this.styles.container}>
+      <View style={Platform.OS === 'ios' ? this.styles.iosContainer : this.styles.droidContainer}>
         <ChatBubble
           left={this.props.bubbleLeft}
           top={this.props.bubbleTop}

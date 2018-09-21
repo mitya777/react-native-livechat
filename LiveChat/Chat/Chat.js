@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, Dimensions, Platform } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, Text, Dimensions, Platform } from 'react-native';
 import {SafeAreaView} from 'react-navigation';
 import { init } from '@livechat/livechat-visitor-sdk';
 import { View } from 'react-native-animatable';
@@ -156,8 +156,10 @@ export default class Chat extends React.Component {
               user={this.getVisitor()}
               {...this.props}
             />
-            {/*<KeyboardAvoidingView behavior={ Platform.OS === 'android' ? 'padding' :  null} keyboardVerticalOffset={80} />*/}
-            <KeyboardSpacer/>
+            {Platform.OS == 'ios'
+            ? <KeyboardAvoidingView behavior={null} keyboardVerticalOffset={80} />
+            : <KeyboardSpacer topSpacing={40} />
+            }
           </SafeAreaView>
         </View>
       );
@@ -183,9 +185,10 @@ const styles = StyleSheet.create({
   },
   container: {
     width,
-    height: Platform.OS === 'ios' ? height - this.safeOffset.bottom : height - this.safeOffset.bottom,
+    height: Platform.OS === 'ios' ? height - this.safeOffset.bottom : height,
     position: 'absolute',
-    zIndex: 1000,
+    // Needed for droid Send button to work.
+    zIndex: 1100,
     flexDirection: 'column',
     backgroundColor: '#fff'
   },
