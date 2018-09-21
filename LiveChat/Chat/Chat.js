@@ -1,10 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, Dimensions, Platform } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, Text, Dimensions, Platform } from 'react-native';
+import {SafeAreaView} from 'react-navigation';
 import { init } from '@livechat/livechat-visitor-sdk';
 import { View } from 'react-native-animatable';
 import PropTypes from 'prop-types';
 import { GiftedChat } from 'react-native-gifted-chat';
 import NavigationBar from './NavigationBar/NavigationBar';
+import { ifIphoneX } from 'react-native-iphone-x-helper';
 
 const { height, width } = Dimensions.get('window');
 const totalSize = num => (Math.sqrt((height * height) + (width * width)) * num) / 100;
@@ -30,6 +32,7 @@ export default class Chat extends React.Component {
     GLOBAL.visitorSDK.on('chat_ended', this.handleChatEnded.bind(this));
     GLOBAL.visitorSDK.on('visitor_data', this.hendleVisitorData.bind(this));
 
+    this.safeOffset = ifIphoneX({top: 44, bottom: 34}, {top: 0, bottom: 0})
     this.handleInputTextChange = this.handleInputTextChange.bind(this);
     this.handleSend = this.handleSend.bind(this);
     this.renderFooter = this.renderFooter.bind(this);
@@ -135,7 +138,6 @@ export default class Chat extends React.Component {
     if (this.props.isChatOn) {
       return (
         <View
-          animation="lightSpeedIn"
           style={styles.container}
           ref={(ref) => { this.chat = ref; }}
         >
@@ -143,14 +145,19 @@ export default class Chat extends React.Component {
           <Text style={styles.status}>
             { this.state.onlineStatus ? this.props.greeting : this.props.noAgents }
           </Text>
-          <GiftedChat
-            messages={this.state.messages}
-            renderFooter={this.renderFooter}
-            onSend={this.handleSend}
-            onInputTextChanged={this.handleInputTextChange}
-            user={this.getVisitor()}
-            {...this.props}
-          />
+
+          <SafeAreaView style={{ flex: 1 }}>
+            <GiftedChat
+              messages={this.state.messages}
+              renderFooter={this.renderFooter}
+              onSend={this.handleSend}
+              onInputTextChanged={this.handleInputTextChange}
+              user={this.getVisitor()}
+              {...this.props}
+              forceGetKeyboardHeight
+            />
+            <KeyboardAvoidingView behavior={ Platform.OS === 'android' ? 'padding' :  null} keyboardVerticalOffset={80} />
+          </SafeAreaView>
         </View>
       );
     }
@@ -175,7 +182,7 @@ const styles = StyleSheet.create({
   },
   container: {
     width,
-    height: Platform.OS === 'ios' ? height : height - height / 25,
+    height: Platform.OS === 'ios' ? height - this.safeOffset.bottom : height - height / 25,
     position: 'absolute',
     flexDirection: 'column',
     backgroundColor: '#fff',
