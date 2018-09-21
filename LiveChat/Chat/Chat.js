@@ -185,6 +185,7 @@ const styles = StyleSheet.create({
     width,
     height: Platform.OS === 'ios' ? height - this.safeOffset.bottom : height - height / 25,
     position: 'absolute',
+    zIndex: 1000,
     flexDirection: 'column',
     backgroundColor: '#fff'
   },
