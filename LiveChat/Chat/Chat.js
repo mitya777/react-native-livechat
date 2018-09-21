@@ -1,5 +1,5 @@
 import React from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, Dimensions, Platform } from 'react-native';
+import { StyleSheet, Text, Dimensions, Platform } from 'react-native';
 import {SafeAreaView} from 'react-navigation';
 import { init } from '@livechat/livechat-visitor-sdk';
 import { View } from 'react-native-animatable';
@@ -147,7 +147,7 @@ export default class Chat extends React.Component {
             { this.state.onlineStatus ? this.props.greeting : this.props.noAgents }
           </Text>
 
-          <SafeAreaView style={{ flex: 1 }}>
+          <SafeAreaView style={{ flex: 1, height: height }}>
             <GiftedChat
               messages={this.state.messages}
               renderFooter={this.renderFooter}
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
   },
   container: {
     width,
-    height: Platform.OS === 'ios' ? height - this.safeOffset.bottom : height - height / 25,
+    height: Platform.OS === 'ios' ? height - this.safeOffset.bottom : height - this.safeOffset.bottom,
     position: 'absolute',
     zIndex: 1000,
     flexDirection: 'column',
