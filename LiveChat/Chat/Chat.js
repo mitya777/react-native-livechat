@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   },
   container: {
     width,
-    height: Platform.OS === 'ios' ? height - this.safeOffset.bottom : height,
+    height: Platform.OS === 'ios' ? height - this.safeOffset.bottom : height - height/25,
     position: 'absolute',
     // Needed for droid Send button to work.
     zIndex: 1100,
